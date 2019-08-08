@@ -12,4 +12,8 @@ def get_number_of_books_borrowed
   return @books_borrowed.count
 end
 
+def borrow_book(book)
+  @books_borrowed << book
+end
+
 end

@@ -3,9 +3,9 @@ class Library
 attr_reader :name
 attr_accessor :catalogue, :books_loan
 
-def initialize(name)
+def initialize(name, catalogue = [])
   @name = name
-  @catalogue = []
+  @catalogue = catalogue
   @books_loan = []
 end
 
@@ -25,9 +25,15 @@ def add_books_to_books_loan(book)
   @books_loan << book
 end
 
-def loan_a_book_to_customer(book)
+def remove_book_catalogue(book)
+  @catalogue.delete(book)
+end
+
+def loan_a_book_to_customer(customer, book)
   if @catalogue.include?(book)
     add_books_to_books_loan(book)
+    remove_book_catalogue(book)
+    customer.borrow_book(book)
   end
 end
 

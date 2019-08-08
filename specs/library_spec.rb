@@ -12,7 +12,7 @@ def setup
   @book2 = Book.new('Lord of the rings')
   @books = [@book1, @book2]
   @customer1 = Customer.new('John', 0)
-  @library1 = Library.new('Edinburgh Library')
+  @library1 = Library.new('Edinburgh Library', @books)
 
 end
 
@@ -21,7 +21,7 @@ def test_get_library_name
 end
 
 def test_get_library_number_of_books_in_catalogue
-  assert_equal(0, @library1.count_books_catalogue())
+  assert_equal(2, @library1.count_books_catalogue())
 end
 
 def test_get_library_number_os_books_loan
@@ -31,7 +31,7 @@ end
 def test_add_books_to_catalogue
   @library1.add_books_to_catalogue(@book1)
   @library1.add_books_to_catalogue(@book2)
-  assert_equal(2, @library1.count_books_catalogue)
+  assert_equal(4, @library1.count_books_catalogue)
 end
 
 def test_add_books_to_books_loan
@@ -40,13 +40,16 @@ def test_add_books_to_books_loan
   assert_equal(2, @library1.count_books_loan)
 end
 
-def test_loan_a_book_to_customer
-  @library1.add_books_to_catalogue(@book1)
-  @library1.add_books_to_catalogue(@book2)
-  @library1.add_books_to_books_loan(@book1)
-  assert_equal(2, @library1.count_books_catalogue)
-  assert_equal(1, @library1.count_books_loan)
+def test_remove_book_catalogue
+  @library1.remove_book_catalogue(@book2)
+  assert_equal(1, @library1.count_books_catalogue())
+end
 
+def test_loan_a_book_to_customer
+  @library1.loan_a_book_to_customer(@customer1, @book2)
+  assert_equal(1, @library1.count_books_catalogue)
+  assert_equal(1, @library1.count_books_loan)
+  assert_equal(1, @customer1.get_number_of_books_borrowed)
 end
 
 end
